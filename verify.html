@@ -244,12 +244,7 @@
 </footer>
 
 <script>
-  const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1iZGwgJLDew_E23VLxkDUVP94mnU6SkRfKyiKQozBeUI/export?format=csv&gid=0';
-
-  // Allow Enter key
-  document.getElementById('certInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') verifyCert();
-  });
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9DD7SGCmbJClCmFt1vyvbceqAMcA5loIMx929Mxd7rSZ6h1ciw31VqoCGFIbyZ7Iy/exec';
 
   async function verifyCert() {
     const input = document.getElementById('certInput').value.trim();
@@ -261,29 +256,15 @@
       return;
     }
 
-    // Show loading
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `<div class="loading"><div class="spinner"></div>Verifying certificate...</div>`;
 
     try {
-      const res = await fetch(SHEET_CSV + '&t=' + Date.now());
-      const text = await res.text();
-      const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+      const res = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(input)}`);
+      const json = await res.json();
 
-      // rows[0] = headers, rows[1+] = data
-      const headers = rows[0];
-      const data = rows.slice(1);
-
-      const certIdCol = headers.findIndex(h => h.toLowerCase().includes('cert'));
-      const nameCol = headers.findIndex(h => h.toLowerCase().includes('name'));
-      const domainCol = headers.findIndex(h => h.toLowerCase().includes('domain'));
-      const durationCol = headers.findIndex(h => h.toLowerCase().includes('duration'));
-      const dateCol = headers.findIndex(h => h.toLowerCase().includes('date'));
-      const statusCol = headers.findIndex(h => h.toLowerCase().includes('status'));
-
-      const match = data.find(row => row[certIdCol] && row[certIdCol].toLowerCase() === input.toLowerCase());
-
-      if (match) {
+      if (json.found) {
+        const d = json.data;
         resultDiv.innerHTML = `
           <div class="result-success">
             <div class="result-header">
@@ -293,30 +274,12 @@
                 <p>This is an authentic Trivelix certificate</p>
               </div>
             </div>
-            <div class="detail-row">
-              <span class="detail-label">Certificate ID</span>
-              <span class="detail-value">${match[certIdCol] || '—'}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Intern Name</span>
-              <span class="detail-value">${match[nameCol] || '—'}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Domain</span>
-              <span class="detail-value">${match[domainCol] || '—'}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Duration</span>
-              <span class="detail-value">${match[durationCol] || '—'}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Issue Date</span>
-              <span class="detail-value">${match[dateCol] || '—'}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Status</span>
-              <span class="detail-value"><span class="status-badge">${match[statusCol] || 'Completed'}</span></span>
-            </div>
+            <div class="detail-row"><span class="detail-label">Certificate ID</span><span class="detail-value">${d['Cert ID'] || input}</span></div>
+            <div class="detail-row"><span class="detail-label">Intern Name</span><span class="detail-value">${d['Name'] || '—'}</span></div>
+            <div class="detail-row"><span class="detail-label">Domain</span><span class="detail-value">${d['Domain'] || '—'}</span></div>
+            <div class="detail-row"><span class="detail-label">Duration</span><span class="detail-value">${d['Duration'] || '—'}</span></div>
+            <div class="detail-row"><span class="detail-label">Issue Date</span><span class="detail-value">${d['Issue Date'] || '—'}</span></div>
+            <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value"><span class="status-badge">${d['Status'] || 'Completed'}</span></span></div>
           </div>`;
       } else {
         resultDiv.innerHTML = `
@@ -324,7 +287,7 @@
             <div class="icon">❌</div>
             <h4>Certificate Not Found</h4>
             <p>The Certificate ID <strong>"${input}"</strong> was not found in our records.<br>
-            Please check the ID and try again, or contact us at trivelixai@gmail.com</p>
+            Please check the ID and try again, or contact trivelixai@gmail.com</p>
           </div>`;
       }
     } catch (err) {

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trivelix Internship Offer Letter</title>
+<link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Arial:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0f0f0; }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    margin: 20px auto;
+    padding: 20mm 18mm;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #1a1a2e;
+    margin-bottom: 20px;
+  }
+  .logo-section { display: flex; align-items: center; gap: 12px; }
+  .logo-section img { height: 60px; width: 60px; object-fit: contain; }
+  .logo-text { line-height: 1.2; }
+  .logo-text h1 { font-size: 22px; font-weight: 900; letter-spacing: 3px;
+    background: linear-gradient(135deg, #00c6ff, #7b2fff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .logo-text p { font-size: 9px; color: #666; letter-spacing: 1px; text-transform: uppercase; }
+
+  .badges { display: flex; gap: 8px; align-items: center; }
+  .badge {
+    border: 1.5px solid #00c6ff;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 7px; text-align: center; color: #00c6ff; font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* REF */
+  .ref { font-size: 10px; color: #333; margin-bottom: 18px; }
+  .ref span { font-weight: 700; }
+
+  /* TITLE */
+  .letter-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    color: #1a1a2e;
+    letter-spacing: 1px;
+  }
+
+  /* DETAILS TABLE */
+  .details-table { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+  .details-table td { padding: 5px 8px; font-size: 11px; vertical-align: top; }
+  .details-table td:first-child { font-weight: 700; width: 42%; color: #1a1a2e; }
+  .details-table td:nth-child(2) { width: 3%; }
+
+  /* BODY TEXT */
+  .body-text { font-size: 11px; line-height: 1.8; color: #222; margin-bottom: 14px; text-align: justify; }
+  .body-text strong { color: #1a1a2e; }
+
+  /* STRUCTURE SECTION */
+  .section-title { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 10px; }
+
+  /* WEEK TABLE */
+  .week-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 10px; }
+  .week-table th {
+    background: linear-gradient(135deg, #00c6ff, #7b2fff);
+    color: #fff; padding: 7px 10px; text-align: left; font-weight: 700;
+  }
+  .week-table td { padding: 6px 10px; border: 1px solid #ddd; vertical-align: top; line-height: 1.5; }
+  .week-table tr:nth-child(even) td { background: #f7f9ff; }
+  .week-table tr:last-child td { background: #1a1a2e; color: #fff; font-weight: 700; text-align: center; }
+
+  /* NOTE */
+  .note { font-size: 11px; font-weight: 700; margin-bottom: 12px; color: #333; }
+
+  /* CONGRATS */
+  .congrats { font-size: 11px; line-height: 1.8; color: #222; margin-bottom: 30px; }
+
+  /* SIGNATURE */
+  .signature-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+  }
+  .sig-left { font-size: 10px; color: #333; line-height: 1.8; }
+  .sig-left strong { font-size: 12px; color: #1a1a2e; display: block; margin-top: 40px; }
+  .sig-right { text-align: center; font-size: 9px; color: #666; }
+  .sig-right .qr-box {
+    width: 70px; height: 70px;
+    border: 2px solid #00c6ff;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 5px;
+    font-size: 8px; color: #aaa; border-radius: 4px;
+    background: repeating-linear-gradient(45deg, #f0f0f0, #f0f0f0 2px, #fff 2px, #fff 8px);
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 2px solid #1a1a2e;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    color: #888;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CONTROLS -->
+<div class="no-print" style="text-align:center;padding:15px;background:#1a1a2e;">
+  <button onclick="fillAndPrint()" style="background:linear-gradient(135deg,#00c6ff,#7b2fff);color:#fff;border:none;padding:10px 30px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin-right:10px;">
+    🖨️ Download / Print PDF
+  </button>
+</div>
+
+<div class="page" id="letter">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-section">
+      <img src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" alt="Trivelix Logo" />
+      <div class="logo-text">
+        <h1>TRIVELIX</h1>
+        <p>Building Tomorrow's Tech</p>
+        <p style="margin-top:2px;color:#00c6ff;">trivelixai@gmail.com</p>
+      </div>
+    </div>
+    <div class="badges">
+      <div class="badge">ISO<br>9001<br>CERTIFIED</div>
+      <div class="badge">GREAT<br>PLACE<br>TO WORK</div>
+      <div class="badge" style="border-color:#7b2fff;color:#7b2fff;">AICTE<br>APPROVED</div>
+    </div>
+  </div>
+
+  <!-- REF -->
+  <div class="ref">
+    <span>Ref No:</span> TRX-<span id="refNo"></span>
+  </div>
+
+  <!-- TITLE -->
+  <div class="letter-title">Internship Offer Letter</div>
+
+  <!-- DETAILS -->
+  <table class="details-table">
+    <tr><td>Student Name</td><td>:</td><td id="studentName">[Student Name]</td></tr>
+    <tr><td>Stream</td><td>:</td><td id="stream">[Stream]</td></tr>
+    <tr><td>Branch</td><td>:</td><td id="branch">[Branch]</td></tr>
+    <tr><td>Institute Name</td><td>:</td><td id="institute">[Institute Name]</td></tr>
+    <tr><td>Internship Domain</td><td>:</td><td id="domain">[Domain]</td></tr>
+    <tr><td>Internship Duration</td><td>:</td><td id="duration">[Start Month] - [End Month]</td></tr>
+    <tr><td>Internship ID</td><td>:</td><td id="internId"></td></tr>
+  </table>
+
+  <!-- BODY -->
+  <p class="body-text">
+    We are pleased to inform you that you have been selected for the <strong>Internship Program at Trivelix</strong>. After a careful review of your application and profile, we were highly impressed by your enthusiasm, skills, and potential.
+  </p>
+  <p class="body-text">
+    During this internship, you will work on <strong>real-world projects</strong>, gain hands-on experience, and develop industry-relevant skills that will enhance your employability and strengthen your confidence in your chosen domain.
+  </p>
+  <p class="body-text">
+    The program is designed to provide <strong>structured learning combined with practical exposure</strong> under the guidance of experienced mentors.
+  </p>
+
+  <!-- STRUCTURE -->
+  <p class="section-title">Internship Structure & Evaluation:</p>
+  <p class="body-text">
+    • The internship will follow a <strong>week-wise structured learning plan.</strong><br>
+    • You will be required to complete <strong>weekly tasks and assignments</strong> to track your progress.<br>
+    • Certain modules will require submission of <strong>project documentation.</strong><br>
+    • In the final week, you must submit a <strong>Final Project / Assessment.</strong><br>
+    • The final grade will be based on your overall performance including tasks, assignments, and final submission.
+  </p>
+
+  <!-- WEEK TABLE -->
+  <table class="week-table">
+    <tr>
+      <th style="width:12%">Week</th>
+      <th style="width:35%">Module</th>
+      <th>Description</th>
+    </tr>
+    <tr><td>Week 1</td><td>Orientation & Domain Basics</td><td>Introduction to the internship, tools setup, and foundational concepts of the domain.</td></tr>
+    <tr><td>Week 2</td><td>Core Concepts & Theory</td><td>Deep dive into core technical concepts with guided learning materials and resources.</td></tr>
+    <tr><td>Week 3</td><td>Hands-On Practice</td><td>Practical exercises and mini-tasks to apply the concepts learned in previous weeks.</td></tr>
+    <tr><td>Week 4</td><td>Mini Project</td><td>Build a small project demonstrating understanding of the domain fundamentals.</td></tr>
+    <tr><td>Week 5</td><td>Advanced Topics</td><td>Explore advanced concepts, tools, and real-world use cases in the domain.</td></tr>
+    <tr><td>Week 6</td><td>Industry Case Studies</td><td>Analyze and learn from real industry problems and how they are solved technically.</td></tr>
+    <tr><td>Week 7</td><td>Major Project Development</td><td>Start building the final major project with mentor guidance and regular check-ins.</td></tr>
+    <tr><td>Week 8</td><td>Final Submission & Evaluation</td><td>Complete and submit the final project. Evaluation and certificate issuance.</td></tr>
+    <tr><td colspan="3">Final Credential Validation / Internship Grade Point Assessment</td></tr>
+  </table>
+
+  <!-- NOTE -->
+  <p class="note">Note: Stipend (if applicable) will be communicated separately based on performance.</p>
+
+  <!-- CONGRATS -->
+  <p class="congrats">
+    Upon successful completion of all required tasks and assessments, you will be awarded an official <strong>Internship Completion Certificate</strong> by Trivelix.<br><br>
+    We congratulate you on your selection and wish you a successful and enriching learning journey with Trivelix!
+  </p>
+
+  <!-- SIGNATURE -->
+  <div class="signature-section">
+    <div class="sig-left">
+      <img src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" style="height:40px;width:40px;object-fit:contain;opacity:0.7;" />
+      <strong id="founderName">Founder & CEO, Trivelix</strong>
+      <span>trivelixai@gmail.com</span><br>
+      <span>linkedin.com/in/trivelix-ai-979494411</span>
+    </div>
+    <div class="sig-right">
+      <div class="qr-box">QR</div>
+      <div>Scan to Verify</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>This is an official document issued by Trivelix. Unauthorized editing is strictly prohibited.</span>
+    <span>Page 1</span>
+  </div>
+
+</div>
+
+<script>
+  // Auto generate ref number and intern ID
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const rand = Math.floor(Math.random()*9000000+1000000);
+  document.getElementById('refNo').textContent = `TRX${y}${m}${rand}`;
+  document.getElementById('internId').textContent = `TRX${rand}INT${y}`;
+
+  function fillAndPrint() {
+    const name = prompt("Student Full Name:") || "[Student Name]";
+    const stream = prompt("Stream (e.g. B.Tech):") || "B.Tech";
+    const branch = prompt("Branch (e.g. Computer Science):") || "[Branch]";
+    const institute = prompt("Institute Name:") || "[Institute]";
+    const domain = prompt("Domain (e.g. Web Development):") || "[Domain]";
+    const duration = prompt("Duration (e.g. June 2026 - August 2026):") || "[Duration]";
+    const founder = prompt("Your Name (Founder/CEO):") || "Founder & CEO";
+
+    document.getElementById('studentName').textContent = name;
+    document.getElementById('stream').textContent = stream;
+    document.getElementById('branch').textContent = branch;
+    document.getElementById('institute').textContent = institute;
+    document.getElementById('domain').textContent = domain;
+    document.getElementById('duration').textContent = duration;
+    document.getElementById('founderName').textContent = founder + ", Trivelix";
+
+    // Hide controls then print
+    document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
+    window.print();
+    document.querySelectorAll('.no-print').forEach(el => el.style.display = 'block');
+  }
+</script>
+</body>
+</html>

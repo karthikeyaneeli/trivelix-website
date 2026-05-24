@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trivelix Internship Certificate</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #1a1a2e; display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: 'Outfit', sans-serif; }
+  body { background: #e8e8e8; font-family: 'Outfit', sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
   .controls {
     margin-bottom: 20px;
     display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    max-width: 900px; width: 100%;
   }
   .controls input {
-    padding: 10px 16px; border-radius: 6px; border: 1px solid #00c6ff;
-    background: #0a0a1a; color: #fff; font-size: 13px; width: 220px;
-    outline: none;
+    padding: 10px 14px; border-radius: 6px;
+    border: 1px solid #ccc; background: #fff;
+    color: #333; font-size: 13px; width: 200px; outline: none;
   }
-  .controls input::placeholder { color: #666; }
   .btn {
     padding: 10px 24px; border-radius: 6px; border: none;
     background: linear-gradient(135deg, #00c6ff, #7b2fff);
@@ -26,252 +26,268 @@
   }
 
   /* CERTIFICATE */
-  .cert-wrap {
+  .cert {
     width: 297mm;
-    height: 210mm;
-    position: relative;
+    min-height: 210mm;
     background: #fff;
+    position: relative;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(0,198,255,0.3);
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    padding: 14mm 16mm;
   }
 
-  /* Background design */
-  .cert-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 15% 50%, rgba(0,198,255,0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 85% 50%, rgba(123,47,255,0.06) 0%, transparent 50%);
+  /* Gold border */
+  .cert::before {
+    content: '';
+    position: absolute; inset: 6px;
+    border: 2px solid #c9a84c;
+    pointer-events: none; z-index: 3;
+  }
+  .cert::after {
+    content: '';
+    position: absolute; inset: 10px;
+    border: 0.5px solid #c9a84c;
+    pointer-events: none; z-index: 3;
   }
 
-  /* Border */
-  .cert-border-outer {
-    position: absolute; inset: 8px;
-    border: 3px solid;
-    border-image: linear-gradient(135deg, #00c6ff, #7b2fff, #00c6ff) 1;
-  }
-  .cert-border-inner {
-    position: absolute; inset: 14px;
-    border: 1px solid rgba(0,198,255,0.3);
-  }
-
-  /* Corner ornaments */
-  .corner {
-    position: absolute; width: 50px; height: 50px;
-  }
-  .corner svg { width: 100%; height: 100%; }
-  .corner.tl { top: 18px; left: 18px; }
-  .corner.tr { top: 18px; right: 18px; transform: scaleX(-1); }
-  .corner.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
-  .corner.br { bottom: 18px; right: 18px; transform: scale(-1); }
-
-  /* Content */
-  .cert-content {
-    position: relative; z-index: 2;
-    height: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 25px 60px;
-    text-align: center;
-  }
-
-  .cert-logo { height: 55px; width: 55px; object-fit: contain; margin-bottom: 4px; }
-
-  .cert-company {
-    font-family: 'Cinzel', serif;
-    font-size: 22px; font-weight: 900; letter-spacing: 6px;
-    background: linear-gradient(135deg, #00c6ff, #7b2fff);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    margin-bottom: 2px;
-  }
-  .cert-tagline { font-size: 9px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-
-  .cert-divider {
-    width: 200px; height: 2px;
-    background: linear-gradient(90deg, transparent, #00c6ff, #7b2fff, transparent);
-    margin-bottom: 12px;
-  }
-
-  .cert-title {
-    font-family: 'Cinzel', serif;
-    font-size: 13px; letter-spacing: 4px;
-    color: #555; text-transform: uppercase; margin-bottom: 8px;
-  }
-
-  .cert-presents { font-size: 11px; color: #888; margin-bottom: 6px; letter-spacing: 1px; }
-
-  .cert-name {
-    font-family: 'Cinzel', serif;
-    font-size: 36px; font-weight: 700;
-    background: linear-gradient(135deg, #00c6ff, #7b2fff);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    margin-bottom: 6px;
-    line-height: 1.1;
-  }
-
-  .cert-line { width: 300px; height: 1px; background: linear-gradient(90deg, transparent, #ccc, transparent); margin-bottom: 10px; }
-
-  .cert-body { font-size: 11px; color: #444; line-height: 1.8; max-width: 520px; margin-bottom: 10px; }
-  .cert-body strong { color: #1a1a2e; }
-
-  .cert-domain {
-    font-size: 13px; font-weight: 700;
-    color: #1a1a2e; letter-spacing: 1px;
-    border-bottom: 2px solid;
-    border-image: linear-gradient(90deg, #00c6ff, #7b2fff) 1;
-    padding-bottom: 3px; margin-bottom: 10px;
-  }
-
-  .cert-duration { font-size: 10px; color: #777; letter-spacing: 1px; margin-bottom: 16px; }
-
-  /* Signature row */
-  .sig-row {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    width: 100%; margin-top: 4px;
-  }
-  .sig-box { text-align: center; flex: 1; }
-  .sig-line { width: 120px; height: 1px; background: #999; margin: 0 auto 4px; }
-  .sig-name { font-size: 10px; font-weight: 700; color: #1a1a2e; }
-  .sig-title { font-size: 8px; color: #888; }
-
-  .cert-id-box {
-    text-align: center; flex: 1;
-  }
-  .cert-id { font-size: 8px; color: #aaa; letter-spacing: 1px; }
-  .cert-id span { color: #00c6ff; font-weight: 700; }
-
-  /* Watermark */
+  /* Watermark logo */
   .watermark {
     position: absolute;
-    font-family: 'Cinzel', serif;
-    font-size: 80px; font-weight: 900;
-    color: rgba(0,198,255,0.04);
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
-    white-space: nowrap; pointer-events: none; z-index: 1;
-    letter-spacing: 10px;
+    transform: translate(-50%, -50%);
+    width: 320px; height: 320px;
+    opacity: 0.06;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Diagonal lines background */
+  .bg-lines {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(180,150,50,0.03) 20px,
+      rgba(180,150,50,0.03) 21px
+    );
+    z-index: 0;
+  }
+
+  .content { position: relative; z-index: 2; }
+
+  /* HEADER */
+  .header {
+    display: flex; flex-direction: column; align-items: center;
+    margin-bottom: 6mm;
+    padding-bottom: 4mm;
+    border-bottom: 1.5px solid #c9a84c;
+  }
+  .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .header img { height: 52px; width: 52px; object-fit: contain; }
+  .company-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 900; letter-spacing: 4px;
+    background: linear-gradient(135deg, #00c6ff, #7b2fff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .company-sub { font-size: 9px; letter-spacing: 2px; color: #888; text-transform: uppercase; text-align: center; }
+  .company-info { font-size: 8.5px; color: #666; text-align: center; margin-top: 3px; line-height: 1.5; }
+
+  /* TITLE */
+  .cert-title {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 900;
+    letter-spacing: 4px; color: #1a1a1a;
+    text-transform: uppercase;
+    margin: 5mm 0 4mm;
+    text-decoration: underline;
+    text-decoration-color: #c9a84c;
+    text-underline-offset: 6px;
+  }
+
+  /* BODY */
+  .cert-body {
+    font-size: 11.5px; line-height: 1.9;
+    color: #222; text-align: justify;
+    margin-bottom: 4mm;
+  }
+  .cert-body strong { font-weight: 700; color: #000; }
+
+  .project-title {
+    font-size: 12px; font-style: italic; font-weight: 600;
+    color: #333; text-align: center;
+    margin: 3mm 0; padding: 6px 0;
+    border-top: 1px solid #e0cc80;
+    border-bottom: 1px solid #e0cc80;
+  }
+
+  .bullet-list { margin: 3mm 0 3mm 8mm; }
+  .bullet-list li {
+    font-size: 11px; color: #333; line-height: 1.8;
+    list-style: disc;
+  }
+
+  .closing { font-size: 11.5px; color: #222; line-height: 1.8; margin-bottom: 5mm; text-align: justify; }
+
+  /* FOOTER */
+  .cert-footer {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-top: 4mm; padding-top: 3mm;
+    border-top: 1px solid #ddd;
+  }
+  .footer-left { font-size: 10px; color: #333; line-height: 1.8; }
+  .footer-left strong { font-size: 11px; }
+
+  .qr-section { text-align: center; }
+  .qr-box {
+    width: 65px; height: 65px;
+    border: 1.5px solid #c9a84c;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 4px;
+    background: repeating-linear-gradient(45deg, #f9f9f9, #f9f9f9 2px, #fff 2px, #fff 6px);
+    border-radius: 3px;
+  }
+  .qr-text { font-size: 7.5px; color: #888; }
+
+  .footer-right { text-align: right; font-size: 10px; color: #333; line-height: 1.8; }
+  .footer-right .sig-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700; color: #1a1a1a;
+    display: block; margin-top: 4px;
+  }
+
+  .cert-id-bar {
+    margin-top: 3mm; font-size: 8px; color: #999;
+    text-align: center; letter-spacing: 0.5px;
+  }
+
+  .disclaimer {
+    text-align: right; font-size: 7.5px; color: #aaa;
+    margin-top: 2mm; font-style: italic;
   }
 
   @media print {
     body { background: #fff; padding: 0; }
     .controls { display: none; }
-    .cert-wrap { box-shadow: none; }
+    .cert { box-shadow: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- CONTROLS -->
 <div class="controls">
   <input type="text" id="inp-name" placeholder="Intern Full Name" />
-  <input type="text" id="inp-domain" placeholder="Domain (e.g. Web Development)" />
-  <input type="text" id="inp-duration" placeholder="Duration (e.g. June - Aug 2026)" />
-  <input type="text" id="inp-founder" placeholder="Your Name (CEO)" />
+  <input type="text" id="inp-college" placeholder="College / University" />
+  <input type="text" id="inp-role" placeholder="Role (e.g. Research Intern)" />
+  <input type="text" id="inp-domain" placeholder="Domain (e.g. AI & ML)" />
+  <input type="text" id="inp-duration" placeholder="Duration (e.g. 4 Weeks)" />
+  <input type="text" id="inp-from" placeholder="From Date (e.g. 1 June 2026)" />
+  <input type="text" id="inp-to" placeholder="To Date (e.g. 30 June 2026)" />
+  <input type="text" id="inp-founder" placeholder="Your Name (Director)" />
   <button class="btn" onclick="generateCert()">Generate Certificate</button>
   <button class="btn" onclick="window.print()" style="background:linear-gradient(135deg,#7b2fff,#00c6ff);">🖨️ Download PDF</button>
 </div>
 
-<!-- CERTIFICATE -->
-<div class="cert-wrap" id="certificate">
-  <div class="cert-bg"></div>
-  <div class="cert-border-outer"></div>
-  <div class="cert-border-inner"></div>
-  <div class="watermark">TRIVELIX</div>
+<div class="cert" id="certificate">
+  <div class="bg-lines"></div>
+  <img class="watermark" id="wm" src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" alt="" />
 
-  <!-- Corner ornaments -->
-  <div class="corner tl">
-    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 5 L5 25 M5 5 L25 5" stroke="url(#cg)" stroke-width="2" fill="none"/>
-      <path d="M5 5 L20 20" stroke="url(#cg)" stroke-width="1" fill="none" opacity="0.5"/>
-      <circle cx="5" cy="5" r="3" fill="url(#cg)"/>
-      <circle cx="25" cy="5" r="1.5" fill="url(#cg)" opacity="0.6"/>
-      <circle cx="5" cy="25" r="1.5" fill="url(#cg)" opacity="0.6"/>
-      <defs><linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c6ff"/><stop offset="100%" stop-color="#7b2fff"/></linearGradient></defs>
-    </svg>
-  </div>
-  <div class="corner tr">
-    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 5 L5 25 M5 5 L25 5" stroke="url(#cg2)" stroke-width="2" fill="none"/>
-      <circle cx="5" cy="5" r="3" fill="url(#cg2)"/>
-      <defs><linearGradient id="cg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c6ff"/><stop offset="100%" stop-color="#7b2fff"/></linearGradient></defs>
-    </svg>
-  </div>
-  <div class="corner bl">
-    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 5 L5 25 M5 5 L25 5" stroke="url(#cg3)" stroke-width="2" fill="none"/>
-      <circle cx="5" cy="5" r="3" fill="url(#cg3)"/>
-      <defs><linearGradient id="cg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c6ff"/><stop offset="100%" stop-color="#7b2fff"/></linearGradient></defs>
-    </svg>
-  </div>
-  <div class="corner br">
-    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 5 L5 25 M5 5 L25 5" stroke="url(#cg4)" stroke-width="2" fill="none"/>
-      <circle cx="5" cy="5" r="3" fill="url(#cg4)"/>
-      <defs><linearGradient id="cg4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c6ff"/><stop offset="100%" stop-color="#7b2fff"/></linearGradient></defs>
-    </svg>
-  </div>
-
-  <div class="cert-content">
-    <img class="cert-logo" src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" alt="Trivelix" />
-    <div class="cert-company">TRIVELIX</div>
-    <div class="cert-tagline">Building Tomorrow's Tech</div>
-    <div class="cert-divider"></div>
-    <div class="cert-title">Certificate of Internship Completion</div>
-    <div class="cert-presents">This is proudly presented to</div>
-    <div class="cert-name" id="cert-name">Intern Name</div>
-    <div class="cert-line"></div>
-    <p class="cert-body">
-      For successfully completing the internship program at <strong>Trivelix</strong> in the domain of
-    </p>
-    <div class="cert-domain" id="cert-domain">Web Development</div>
-    <p class="cert-body">
-      The intern demonstrated dedication, technical skills, and professional conduct throughout the program. We wish them great success in their future endeavors.
-    </p>
-    <div class="cert-duration" id="cert-duration">Duration: June 2026 — August 2026</div>
-
-    <div class="sig-row">
-      <div class="sig-box">
-        <div class="sig-line"></div>
-        <div class="sig-name" id="cert-founder">Founder & CEO</div>
-        <div class="sig-title">Trivelix</div>
+  <div class="content">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-top">
+        <img src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" alt="Trivelix" />
+        <div>
+          <div class="company-name">TRIVELIX</div>
+          <div class="company-sub">Private Limited</div>
+        </div>
       </div>
-      <div class="cert-id-box">
-        <div class="cert-id">Certificate ID: <span id="cert-id">TRX-2026-000000</span></div>
-        <div class="cert-id" style="margin-top:3px;">trivelixai@gmail.com</div>
-        <div class="cert-id">trivelix-website-r2f6.vercel.app</div>
-      </div>
-      <div class="sig-box">
-        <div class="sig-line"></div>
-        <div class="sig-name">Date of Issue</div>
-        <div class="sig-title" id="cert-date"></div>
+      <div class="company-info">
+        trivelixai@gmail.com &nbsp;|&nbsp; trivelix-website-r2f6.vercel.app &nbsp;|&nbsp; linkedin.com/in/trivelix-ai-979494411
       </div>
     </div>
+
+    <!-- TITLE -->
+    <div class="cert-title">Internship Certificate</div>
+
+    <!-- BODY -->
+    <p class="cert-body">
+      This is to certify that <strong id="c-name">Intern Name</strong>, a student of <strong id="c-college">College Name</strong>, has successfully completed an internship as a <strong id="c-role">Research Intern</strong> — <strong id="c-domain">AI & Machine Learning</strong> at <strong>Trivelix Private Limited</strong> (Remote) for a duration of <strong id="c-duration">4 Weeks</strong>, from <strong id="c-from">1 June 2026</strong> to <strong id="c-to">30 June 2026</strong>.
+    </p>
+
+    <p class="cert-body" style="margin-top:3mm;">During the course of this internship, the intern worked on real-world projects and demonstrated strong technical skills in their domain. As part of this engagement, the intern:</p>
+
+    <ul class="bullet-list">
+      <li>Completed all assigned tasks and project deliverables within the stipulated timeline</li>
+      <li>Demonstrated proficiency in domain-specific tools and technologies</li>
+      <li>Collaborated effectively in a remote professional environment</li>
+      <li>Contributed to practical solutions aligned with industry standards</li>
+    </ul>
+
+    <p class="closing">
+      The intern demonstrated strong analytical thinking, technical competency, and professional commitment, and successfully completed all assigned responsibilities. We wish them success in their future academic and professional endeavors.
+    </p>
+
+    <!-- FOOTER -->
+    <div class="cert-footer">
+      <div class="footer-left">
+        <strong>Date</strong> : <span id="c-date"></span><br>
+        <strong>Place</strong> : Mangalagiri, Andhra Pradesh
+      </div>
+
+      <div class="qr-section">
+        <div class="qr-box">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://trivelix-website-r2f6.vercel.app/verify.html" width="58" height="58" alt="QR" />
+        </div>
+        <div class="qr-text">Scan to Verify</div>
+      </div>
+
+      <div class="footer-right">
+        For Trivelix Private Limited<br>
+        <span class="sig-name" id="c-founder">Director Name</span>
+        Director
+      </div>
+    </div>
+
+    <div class="cert-id-bar">
+      Certificate ID: <strong id="c-certid">TRX-2026-000000</strong> &nbsp;|&nbsp; Verify at: trivelix-website-r2f6.vercel.app/verify.html
+    </div>
+
+    <div class="disclaimer">**This is a system-generated certificate and does not require a physical signature.</div>
   </div>
 </div>
 
 <script>
-  // Set today's date
+  // Set date and cert ID
   const today = new Date();
-  document.getElementById('cert-date').textContent =
-    today.toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
-
-  // Auto cert ID
+  document.getElementById('c-date').textContent = today.toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
   const rid = Math.floor(Math.random()*900000+100000);
-  document.getElementById('cert-id').textContent = `TRX-2026-${rid}`;
+  document.getElementById('c-certid').textContent = `TRX-2026-${rid}`;
 
   function generateCert() {
     const name = document.getElementById('inp-name').value || 'Intern Name';
-    const domain = document.getElementById('inp-domain').value || 'Web Development';
-    const duration = document.getElementById('inp-duration').value || 'June - August 2026';
-    const founder = document.getElementById('inp-founder').value || 'Founder & CEO';
+    const college = document.getElementById('inp-college').value || 'College Name';
+    const role = document.getElementById('inp-role').value || 'Research Intern';
+    const domain = document.getElementById('inp-domain').value || 'AI & Machine Learning';
+    const duration = document.getElementById('inp-duration').value || '4 Weeks';
+    const from = document.getElementById('inp-from').value || '1 June 2026';
+    const to = document.getElementById('inp-to').value || '30 June 2026';
+    const founder = document.getElementById('inp-founder').value || 'Director Name';
 
-    document.getElementById('cert-name').textContent = name;
-    document.getElementById('cert-domain').textContent = domain;
-    document.getElementById('cert-duration').textContent = 'Duration: ' + duration;
-    document.getElementById('cert-founder').textContent = founder;
+    document.getElementById('c-name').textContent = name;
+    document.getElementById('c-college').textContent = college;
+    document.getElementById('c-role').textContent = role;
+    document.getElementById('c-domain').textContent = domain;
+    document.getElementById('c-duration').textContent = duration;
+    document.getElementById('c-from').textContent = from;
+    document.getElementById('c-to').textContent = to;
+    document.getElementById('c-founder').textContent = founder;
 
-    // New cert ID each time
+    // New cert ID
     const newId = Math.floor(Math.random()*900000+100000);
-    document.getElementById('cert-id').textContent = `TRX-2026-${newId}`;
+    document.getElementById('c-certid').textContent = `TRX-2026-${newId}`;
   }
 </script>
 </body>

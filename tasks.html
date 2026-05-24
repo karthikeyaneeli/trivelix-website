@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internship Tasks — Trivelix</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0f;
+    --accent1: #00c6ff;
+    --accent2: #7b2fff;
+    --grad: linear-gradient(135deg, #00c6ff, #7b2fff);
+    --white: #f0f4ff;
+    --gray: #111118;
+    --gray2: #1e1e2e;
+    --muted: #7a80a0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--white); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  nav {
+    padding: 16px 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,15,0.95);
+    border-bottom: 1px solid rgba(0,198,255,0.1);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo img { height: 40px; width: 40px; object-fit: contain; }
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 3px;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .nav-back { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .nav-back:hover { color: var(--accent1); }
+
+  /* HERO */
+  .hero {
+    text-align: center; padding: 60px 20px 40px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,198,255,0.06) 0%, transparent 70%);
+  }
+  .page-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,198,255,0.08);
+    border: 1px solid rgba(0,198,255,0.3);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent1); margin-bottom: 1.5rem;
+  }
+  .dot { width: 6px; height: 6px; background: var(--accent1); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: 2px; line-height: 1; margin-bottom: 1rem;
+  }
+  .hero h1 span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { color: var(--muted); font-size: 1rem; max-width: 500px; margin: 0 auto 1rem; line-height: 1.7; }
+  .hero-note {
+    display: inline-block;
+    background: rgba(123,47,255,0.1);
+    border: 1px solid rgba(123,47,255,0.3);
+    padding: 8px 20px; border-radius: 8px;
+    font-size: 0.82rem; color: #a78bff;
+  }
+
+  /* GRID */
+  .tasks-section { padding: 40px 6vw 80px; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: 1px; margin-bottom: 2.5rem;
+  }
+
+  .domains-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .domain-card {
+    background: var(--gray);
+    border: 1px solid var(--gray2);
+    border-radius: 12px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .domain-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--grad);
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .domain-card:hover { border-color: rgba(0,198,255,0.3); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,198,255,0.08); }
+  .domain-card:hover::before { transform: scaleX(1); }
+
+  .domain-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .domain-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 0.5rem;
+  }
+  .domain-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
+
+  .task-count {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,198,255,0.08);
+    border: 1px solid rgba(0,198,255,0.2);
+    padding: 4px 12px; border-radius: 100px;
+    font-size: 0.75rem; color: var(--accent1); font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+
+  .download-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%;
+    background: var(--grad);
+    color: #fff; text-decoration: none;
+    padding: 12px; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 700;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 15px rgba(0,198,255,0.15);
+  }
+  .download-btn:hover { opacity: 0.85; }
+
+  /* INFO SECTION */
+  .info-section {
+    background: var(--gray);
+    border-top: 1px solid var(--gray2);
+    border-bottom: 1px solid var(--gray2);
+    padding: 50px 6vw;
+  }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .info-card {
+    background: var(--black);
+    border: 1px solid var(--gray2);
+    border-radius: 10px; padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .info-card:hover { border-color: var(--accent1); }
+  .info-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .info-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .info-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* SUBMISSION */
+  .submit-section { padding: 60px 6vw; text-align: center; }
+  .submit-card {
+    background: var(--gray);
+    border: 1px solid rgba(0,198,255,0.2);
+    border-radius: 16px; padding: 3rem;
+    max-width: 600px; margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0,198,255,0.05);
+  }
+  .submit-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 0.8rem; }
+  .submit-card h2 span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .submit-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+  .submit-steps { text-align: left; margin-bottom: 1.5rem; }
+  .submit-step {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--gray2);
+    font-size: 0.88rem;
+  }
+  .submit-step:last-child { border-bottom: none; }
+  .step-num {
+    background: var(--grad); color: #fff;
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .submit-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--grad); color: #fff;
+    padding: 14px 32px; border-radius: 8px;
+    font-size: 1rem; font-weight: 700; text-decoration: none;
+    box-shadow: 0 0 20px rgba(0,198,255,0.2);
+    transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.85; }
+  .submit-email { margin-top: 1rem; font-size: 0.82rem; color: var(--muted); }
+  .submit-email a { color: var(--accent1); text-decoration: none; }
+
+  footer {
+    text-align: center; padding: 20px;
+    color: var(--muted); font-size: 0.8rem;
+    border-top: 1px solid var(--gray2);
+  }
+  footer span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" alt="Trivelix" />
+    <div class="logo-text">TRIVELIX</div>
+  </div>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <div class="page-tag"><span class="dot"></span> Internship Program 2026</div>
+  <h1>YOUR <span>INTERNSHIP</span><br>TASKS</h1>
+  <p>Download your domain-specific task document below. Complete at least 2 out of 4 tasks and submit your GitHub repository link.</p>
+  <div class="hero-note">📌 Minimum 2 tasks required · Remote · Certificate on completion</div>
+</div>
+
+<section class="tasks-section">
+  <div class="section-label">Select Your Domain</div>
+  <div class="section-title">DOWNLOAD TASK DOCUMENT</div>
+
+  <div class="domains-grid">
+
+    <div class="domain-card">
+      <div class="domain-icon">🤖</div>
+      <div class="domain-name">AI & Machine Learning</div>
+      <p class="domain-desc">Build intelligent models, neural networks, and AI-powered applications using Python and modern ML frameworks.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/1XII3CEzGb8Prbj4lIZRD-XeXwUWmcWqJ/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">🌐</div>
+      <div class="domain-name">Web Development</div>
+      <p class="domain-desc">Design and build modern, responsive web applications using React, Node.js, and full-stack technologies.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/13dfQsOCLNGLyk2KUIXx8LNFfWo5N8FNl/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">📱</div>
+      <div class="domain-name">Mobile App Development</div>
+      <p class="domain-desc">Create cross-platform mobile applications for Android and iOS using Flutter or React Native.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/1Dek8gNOYpQ3WjBeTzgMaC9U4O9Hmsm4I/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">☁️</div>
+      <div class="domain-name">Cloud & DevOps</div>
+      <p class="domain-desc">Set up CI/CD pipelines, containerize applications with Docker, and deploy on AWS or GCP cloud platforms.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/1mj5ebK9_btqAmTKw6GH3idpWiuEwZ9Xg/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">🔐</div>
+      <div class="domain-name">Cybersecurity</div>
+      <p class="domain-desc">Learn ethical hacking, penetration testing, vulnerability assessment and security best practices.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/11Zb6ZGuW47x4KaGbvezEEL7IGVLaU_wa/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">📊</div>
+      <div class="domain-name">Data Science & Analytics</div>
+      <p class="domain-desc">Analyze datasets, build dashboards, and derive actionable insights using Python, Pandas, and Power BI.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/16gKs062DbooUl2RvMZbmMKQgxELzrvHJ/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">🎨</div>
+      <div class="domain-name">UI/UX Design</div>
+      <p class="domain-desc">Design beautiful, user-friendly interfaces and prototypes using Figma and modern design principles.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/1cJT8wk17Rkpr0lQNLMxnnuLI66ty_ZZk/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-icon">💡</div>
+      <div class="domain-name">IT Consulting</div>
+      <p class="domain-desc">Develop business technology strategies, digital transformation roadmaps, and consulting frameworks.</p>
+      <div class="task-count">📋 4 Tasks · Complete min. 2</div>
+      <a class="download-btn" href="https://drive.google.com/file/d/1RgNOPFcCY-2Lsxv9lwJVijFiHcy22gH_/view?usp=drivesdk" target="_blank">⬇️ Download Tasks</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="section-label">Important Info</div>
+  <div class="section-title" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:1px;">INTERNSHIP GUIDELINES</div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-icon">✅</div>
+      <div class="info-title">Minimum Tasks</div>
+      <div class="info-desc">Complete at least 2 out of 4 tasks in your selected domain to be eligible for the certificate.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🐙</div>
+      <div class="info-title">GitHub Required</div>
+      <div class="info-desc">Push all your work to a public GitHub repository. Submit only your GitHub link — no zip files.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🎓</div>
+      <div class="info-title">Certificate</div>
+      <div class="info-desc">Official Trivelix internship certificate will be issued within 7 days of successful submission.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">📅</div>
+      <div class="info-title">Duration</div>
+      <div class="info-desc">4-week program. Complete and submit before your internship end date to receive the certificate.</div>
+    </div>
+  </div>
+</section>
+
+<section class="submit-section">
+  <div class="submit-card">
+    <h2>READY TO <span>SUBMIT?</span></h2>
+    <p>Once you've completed your tasks and pushed your code to GitHub, submit your repository link below.</p>
+    <div class="submit-steps">
+      <div class="submit-step"><div class="step-num">1</div><span>Complete minimum 2 tasks from your domain</span></div>
+      <div class="submit-step"><div class="step-num">2</div><span>Push your code to a <strong>public GitHub repository</strong></span></div>
+      <div class="submit-step"><div class="step-num">3</div><span>Submit your GitHub link via the form below</span></div>
+      <div class="submit-step"><div class="step-num">4</div><span>Receive your certificate within 7 working days 🎓</span></div>
+    </div>
+    <a class="submit-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfAZKX1JSWThbs1SP5GzIhsp2juUp2kJsEvlmb9jjkW0qeNHQ/viewform?usp=header" target="_blank">📨 Submit Your Work</a>
+    <div class="submit-email">Questions? Email us at <a href="https://mail.google.com/mail/?view=cm&to=trivelixai@gmail.com" target="_blank">trivelixai@gmail.com</a></div>
+  </div>
+</section>
+
+<footer>
+  © 2026 <span>Trivelix</span> — Built in India, for the World · trivelixai@gmail.com
+</footer>
+
+</body>
+</html>

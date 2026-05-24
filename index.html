@@ -471,31 +471,7 @@
     // We'll load the real logo from the page context if available
     // Since we can't access uploaded files directly in HTML artifacts,
     // we render a clean SVG logo that matches the Trivelix branding
-    const svgLogo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <defs>
-        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#00c6ff"/>
-          <stop offset="100%" stop-color="#7b2fff"/>
-        </linearGradient>
-      </defs>
-      <!-- Outer circle arc -->
-      <path d="M50 8 A42 42 0 1 1 49.9 8" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-dasharray="210 20"/>
-      <!-- Small orbit dot -->
-      <circle cx="82" cy="26" r="3" fill="url(#lg)"/>
-      <!-- Circuit nodes left -->
-      <circle cx="18" cy="42" r="3" fill="#00c6ff"/>
-      <path d="M18 42 Q14 55 18 65" fill="none" stroke="#00c6ff" stroke-width="1.5"/>
-      <circle cx="18" cy="65" r="2.5" fill="#00c6ff"/>
-      <!-- T-wing symbol -->
-      <path d="M50 22 L72 38 L64 42 L50 32 L36 42 L28 38 Z" fill="url(#lg)"/>
-      <!-- Center stem -->
-      <path d="M50 32 L50 78 L44 82 L56 82 Z" fill="url(#lg)" opacity="0.9"/>
-      <!-- Inner diamond accent -->
-      <path d="M50 40 L58 50 L50 60 L42 50 Z" fill="url(#lg)" opacity="0.4"/>
-    </svg>`;
-    const blob = new Blob([svgLogo], {type: 'image/svg+xml'});
-    const url = URL.createObjectURL(blob);
-    imgs.forEach(img => { img.src = url; img.onerror = null; });
+    imgs.forEach(img => { img.src = 'https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg'; img.onerror = null; });
   })();
 
   // Custom cursor

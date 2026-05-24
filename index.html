@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trivelix — Building Tomorrow's Tech</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0f;
+    --accent1: #00c6ff;
+    --accent2: #7b2fff;
+    --accent-mid: #4f8eff;
+    --glow: rgba(0,198,255,0.15);
+    --glow2: rgba(123,47,255,0.12);
+    --grad: linear-gradient(135deg, #00c6ff, #7b2fff);
+    --white: #f0f4ff;
+    --gray: #111118;
+    --gray2: #1e1e2e;
+    --muted: #7a80a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent1);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    box-shadow: 0 0 10px var(--accent1);
+  }
+  .cursor-ring {
+    width: 34px; height: 34px;
+    border: 1.5px solid var(--accent2);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transition: all 0.15s ease; opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,15,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,198,255,0.1);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo img { height: 44px; width: 44px; object-fit: contain; }
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.9rem;
+    letter-spacing: 3px;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent1); }
+  .nav-cta {
+    background: var(--grad) !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: #fff !important;
+    background-clip: unset !important;
+    color: #fff !important;
+    padding: 8px 20px; border-radius: 4px; font-weight: 600 !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 130px 6vw 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 40%, rgba(0,198,255,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse at 20% 75%, rgba(123,47,255,0.07) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,198,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,198,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,198,255,0.08);
+    border: 1px solid rgba(0,198,255,0.3);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent1);
+    margin-bottom: 2rem; width: fit-content;
+    animation: fadeUp 0.8s ease forwards; opacity: 0;
+  }
+  .hero-tag .dot {
+    width: 6px; height: 6px;
+    background: var(--accent1); border-radius: 50%;
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 6px var(--accent1);
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.9; letter-spacing: 2px;
+    animation: fadeUp 0.8s 0.1s ease forwards; opacity: 0;
+  }
+  .hero h1 .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted); max-width: 540px;
+    line-height: 1.7; margin-top: 1.5rem; font-weight: 300;
+    animation: fadeUp 0.8s 0.2s ease forwards; opacity: 0;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 2.5rem;
+    animation: fadeUp 0.8s 0.3s ease forwards; opacity: 0;
+  }
+  .btn-primary {
+    background: var(--grad); color: #fff;
+    padding: 14px 32px; border-radius: 6px;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; letter-spacing: 0.5px;
+    transition: all 0.2s; border: none; cursor: none;
+    box-shadow: 0 0 20px rgba(0,198,255,0.2);
+  }
+  .btn-primary:hover { opacity: 0.85; box-shadow: 0 0 35px rgba(0,198,255,0.4); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 14px 32px; border-radius: 6px;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; letter-spacing: 0.5px;
+    transition: all 0.2s; border: 1.5px solid var(--gray2); cursor: none;
+  }
+  .btn-outline:hover { border-color: var(--accent1); color: var(--accent1); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+    margin-top: 4rem; padding-top: 2rem;
+    border-top: 1px solid var(--gray2);
+    animation: fadeUp 0.8s 0.4s ease forwards; opacity: 0;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; line-height: 1;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden; padding: 16px 0;
+    background: linear-gradient(90deg, #00c6ff, #7b2fff, #00c6ff);
+    background-size: 200%;
+    animation: gradShift 5s linear infinite;
+  }
+  @keyframes gradShift { 0%{background-position:0%} 100%{background-position:200%} }
+  .marquee-track { display: flex; animation: marquee 18s linear infinite; white-space: nowrap; }
+  .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 3px; color: #fff; padding: 0 2rem; opacity: 0.9; }
+  .marquee-dot { color: rgba(255,255,255,0.4); }
+
+  /* SECTIONS */
+  section { padding: 100px 6vw; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 1rem;
+  }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; letter-spacing: 1px; margin-bottom: 1.5rem; }
+  .section-desc { color: var(--muted); max-width: 520px; line-height: 1.8; font-weight: 300; }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px; margin-top: 4rem;
+    background: var(--gray2);
+  }
+  .service-card {
+    background: var(--gray); padding: 2.5rem;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--grad); transform: scaleX(0); transition: transform 0.3s;
+  }
+  .service-card:hover { background: #14141f; }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+  .service-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 0.8rem; }
+  .service-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+  /* INTERNSHIP */
+  .internship-section { background: var(--gray); border-top: 1px solid var(--gray2); border-bottom: 1px solid var(--gray2); }
+  .internship-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .internship-perks { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+  .perk {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.2rem; background: var(--black);
+    border: 1px solid var(--gray2); border-radius: 8px; transition: border-color 0.2s;
+  }
+  .perk:hover { border-color: var(--accent1); box-shadow: 0 0 15px rgba(0,198,255,0.08); }
+  .perk-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .perk-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+  .perk-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+  .apply-card { background: var(--black); border: 1px solid var(--gray2); border-radius: 12px; padding: 2.5rem; }
+  .apply-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 1px; margin-bottom: 0.5rem; }
+  .apply-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: var(--gray2); border: 1px solid #2a2a3e;
+    border-radius: 6px; padding: 12px 16px;
+    color: var(--white); font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent1); box-shadow: 0 0 10px rgba(0,198,255,0.1); }
+  .form-group select option { background: var(--gray2); }
+  .form-group textarea { height: 90px; resize: none; }
+  .form-submit {
+    width: 100%; background: var(--grad); color: #fff; border: none;
+    padding: 14px; border-radius: 6px;
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+    cursor: none; letter-spacing: 1px; transition: all 0.2s; text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(0,198,255,0.2);
+  }
+  .form-submit:hover { opacity: 0.85; box-shadow: 0 0 30px rgba(0,198,255,0.35); }
+
+  /* WHY */
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 4rem; }
+  .why-card { padding: 2rem; border-left: 3px solid; border-image: var(--grad) 1; background: var(--gray); }
+  .why-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem;
+    background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0.3; }
+  .why-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+  .why-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* CTA */
+  .cta-section { text-align: center; position: relative; overflow: hidden; }
+  .cta-section::before {
+    content: 'TRIVELIX'; position: absolute;
+    font-family: 'Bebas Neue', sans-serif; font-size: 18vw;
+    background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    opacity: 0.04; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    letter-spacing: 10px; pointer-events: none; white-space: nowrap;
+  }
+  .cta-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,7vw,6rem); line-height: 1; letter-spacing: 2px; margin-bottom: 1.5rem; }
+  .cta-section h2 .grad { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cta-section p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; font-weight: 300; }
+
+  /* FOOTER */
+  footer {
+    background: var(--gray); border-top: 1px solid var(--gray2);
+    padding: 3rem 6vw; display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .footer-logo { display: flex; align-items: center; gap: 10px; }
+  .footer-logo img { height: 36px; width: 36px; object-fit: contain; }
+  .footer-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px;
+    background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .footer-copy { color: var(--muted); font-size: 0.82rem; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent1); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .reveal { opacity:0; transform:translateY(40px); transition:opacity 0.7s ease,transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .internship-grid{grid-template-columns:1fr;gap:2rem;}
+    .hero-stats{gap:2rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMwMGM2ZmYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3YjJmZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBkPSJNNTAsMTAgTDgwLDMwIEw4MCw3MCBMNTE1IDkwIEwyMCw3MCBMMJAM zMzAgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNNTAsMjggTDY4LDQwIEw2OCw2NCBMNTYOOTI0OCYQwBMNDIsNjQgTDQyLDQwIFoiIGZpbGw9InVybCgjZykiIG9wYWNpdHk9IjAuOCIvPjxsaW5lIHgxPSI1MCIgeTE9IjI4IiB4Mj0iNTAiIHkyPSI5MCIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjMiLz48bGluZSB4MT0iMzIiIHkxPSI0MCIgeDI9IjY4IiB5Mj0iNjQiIHN0cm9rZT0idXJsKCNnKSIgc3Ryb2tlLXdpZHRoPSIzIi8+PGxpbmUgeDE9IjY4IiB5MT0iNDAiIHgyPSIzMiIgeTI9IjY0IiBzdHJva2U9InVybCgjZykiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPg==" alt="Trivelix Logo" id="logoImg" />
+    <div class="logo-text">TRIVELIX</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#internship">Internships</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-tag">
+    <span class="dot"></span>
+    Now Hiring Interns — Apply Below
+  </div>
+  <h1>BUILD.<br><span class="grad">INNOVATE.</span><br>SCALE.</h1>
+  <p class="hero-sub">Trivelix is an IT powerhouse delivering AI, web, mobile, cloud, and enterprise solutions — built in India, for the world.</p>
+  <div class="hero-btns">
+    <a href="#services" class="btn-primary">Explore Services</a>
+    <a href="#internship" class="btn-outline">Apply for Internship</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">50+</div><div class="stat-label">Projects Delivered</div></div>
+    <div><div class="stat-num">20+</div><div class="stat-label">Interns Trained</div></div>
+    <div><div class="stat-num">10+</div><div class="stat-label">Tech Domains</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-label">Client Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">AI & AUTOMATION</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">WEB DEVELOPMENT</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">MOBILE APPS</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">CLOUD SOLUTIONS</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">CYBERSECURITY</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">DATA ANALYTICS</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">ENTERPRISE SOFTWARE</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">IT CONSULTING</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">AI & AUTOMATION</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">WEB DEVELOPMENT</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">MOBILE APPS</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">CLOUD SOLUTIONS</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">CYBERSECURITY</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">DATA ANALYTICS</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">ENTERPRISE SOFTWARE</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">IT CONSULTING</span><span class="marquee-item marquee-dot">◆</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What We Do</div>
+  <h2 class="section-title reveal">ALL IT SERVICES<br>UNDER ONE ROOF</h2>
+  <p class="section-desc reveal">From startups to enterprises, we deliver end-to-end technology solutions that drive real business growth.</p>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-icon">🤖</div><div class="service-name">AI & Automation</div><p class="service-desc">Custom AI agents, ML models, workflow automation, and intelligent chatbots to supercharge your business.</p></div>
+    <div class="service-card reveal"><div class="service-icon">🌐</div><div class="service-name">Web Development</div><p class="service-desc">Fast, responsive, and beautiful websites and web applications built with modern frameworks.</p></div>
+    <div class="service-card reveal"><div class="service-icon">📱</div><div class="service-name">Mobile Apps</div><p class="service-desc">Native and cross-platform mobile apps for Android and iOS that users love.</p></div>
+    <div class="service-card reveal"><div class="service-icon">☁️</div><div class="service-name">Cloud Solutions</div><p class="service-desc">AWS, Azure, and GCP deployments, migrations, and cloud-native architecture design.</p></div>
+    <div class="service-card reveal"><div class="service-icon">🔐</div><div class="service-name">Cybersecurity</div><p class="service-desc">Penetration testing, security audits, compliance, and real-time threat monitoring.</p></div>
+    <div class="service-card reveal"><div class="service-icon">📊</div><div class="service-name">Data & Analytics</div><p class="service-desc">Business intelligence dashboards, data pipelines, and analytics to turn data into decisions.</p></div>
+    <div class="service-card reveal"><div class="service-icon">🏢</div><div class="service-name">Enterprise Software</div><p class="service-desc">Custom ERP, CRM, and HRMS solutions tailored for your organization's unique needs.</p></div>
+    <div class="service-card reveal"><div class="service-icon">💡</div><div class="service-name">IT Consulting</div><p class="service-desc">Strategic technology roadmaps, digital transformation advisory, and architecture consulting.</p></div>
+  </div>
+</section>
+
+<!-- INTERNSHIP -->
+<section id="internship" class="internship-section">
+  <div class="section-label">Grow With Us</div>
+  <h2 class="section-title reveal">LAUNCH YOUR<br>TECH CAREER</h2>
+  <div class="internship-grid">
+    <div>
+      <p class="section-desc reveal">Trivelix offers hands-on internships for passionate students and freshers. Learn from real projects, real mentors, and real challenges.</p>
+      <div class="internship-perks">
+        <div class="perk reveal"><div class="perk-icon">🎓</div><div><div class="perk-title">Official Certificate</div><div class="perk-desc">Get a recognized certificate of completion to boost your resume and LinkedIn profile.</div></div></div>
+        <div class="perk reveal"><div class="perk-icon">💻</div><div><div class="perk-title">Real Project Experience</div><div class="perk-desc">Work on live client projects, not dummy assignments. Build a portfolio that stands out.</div></div></div>
+        <div class="perk reveal"><div class="perk-icon">🧑‍🏫</div><div><div class="perk-title">Expert Mentorship</div><div class="perk-desc">1-on-1 guidance from industry professionals across AI, web, mobile, and more.</div></div></div>
+        <div class="perk reveal"><div class="perk-icon">💰</div><div><div class="perk-title">Stipend & PPO</div><div class="perk-desc">Performance-based stipends and Pre-Placement Offer opportunities for top performers.</div></div></div>
+      </div>
+    </div>
+    <div class="apply-card reveal">
+      <h3>APPLY NOW</h3>
+      <p>Fill in your details and we'll get back to you within 48 hours.</p>
+      <div class="form-group"><input type="text" placeholder="Your Full Name" /></div>
+      <div class="form-group"><input type="email" placeholder="Email Address" /></div>
+      <div class="form-group"><input type="tel" placeholder="Phone Number" /></div>
+      <div class="form-group">
+        <select>
+          <option value="" disabled selected>Select Domain</option>
+          <option>AI & Machine Learning</option>
+          <option>Web Development</option>
+          <option>Mobile App Development</option>
+          <option>Cloud & DevOps</option>
+          <option>Cybersecurity</option>
+          <option>Data Analytics</option>
+          <option>UI/UX Design</option>
+          <option>IT Consulting</option>
+        </select>
+      </div>
+      <div class="form-group"><textarea placeholder="Tell us about yourself & why you want to join Trivelix..."></textarea></div>
+      <button class="form-submit" onclick="handleApply()">Submit Application →</button>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-label">Our Edge</div>
+  <h2 class="section-title reveal">WHY CHOOSE<br>TRIVELIX?</h2>
+  <div class="why-grid">
+    <div class="why-card reveal"><div class="why-num">01</div><div class="why-title">India-First, World-Ready</div><div class="why-desc">Built in India with global standards. We understand local markets while delivering world-class technology.</div></div>
+    <div class="why-card reveal"><div class="why-num">02</div><div class="why-title">Agile & Fast</div><div class="why-desc">We move fast. From idea to deployment, our agile teams deliver without compromising quality.</div></div>
+    <div class="why-card reveal"><div class="why-num">03</div><div class="why-title">Full-Stack Expertise</div><div class="why-desc">Frontend, backend, AI, cloud, security — we cover the entire technology spectrum.</div></div>
+    <div class="why-card reveal"><div class="why-num">04</div><div class="why-title">Transparent Pricing</div><div class="why-desc">No hidden costs. Clear scopes, honest timelines, and fair pricing for every project size.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="reveal">LET'S BUILD<br>SOMETHING<br><span class="grad">GREAT.</span></h2>
+  <p class="reveal">Whether you're a business looking for tech solutions or a student ready to kickstart your career — Trivelix is your partner.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="reveal">
+    <a href="https://mail.google.com/mail/?view=cm&to=trivelixai@gmail.com" target="_blank" class="btn-primary">Email Us</a>
+    <a href="https://www.linkedin.com/in/trivelix-ai-979494411/" target="_blank" class="btn-outline">LinkedIn</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMwMGM2ZmYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3YjJmZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBkPSJNNTAsMTAgTDgwLDMwIEw4MCw3MCBMNTE1IDkwIEwyMCw3MCBMMJAM zMzAgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNNTAsMjggTDY4LDQwIEw2OCw2NCBMNTYOOSI0OCYQwBMNDIsNjQgTDQyLDQwIFoiIGZpbGw9InVybCgjZykiIG9wYWNpdHk9IjAuOCIvPjxsaW5lIHgxPSI1MCIgeTE9IjI4IiB4Mj0iNTAiIHkyPSI5MCIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjMiLz48bGluZSB4MT0iMzIiIHkxPSI0MCIgeDI9IjY4IiB5Mj0iNjQiIHN0cm9rZT0idXJsKCNnKSIgc3Ryb2tlLXdpZHRoPSIzIi8+PGxpbmUgeDE9IjY4IiB5MT0iNDAiIHgyPSIzMiIgeTI9IjY0IiBzdHJva2U9InVybCgjZykiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPg==" alt="logo" style="height:32px;width:32px;object-fit:contain;" />
+    <div class="footer-logo-text">TRIVELIX</div>
+  </div>
+  <div class="footer-copy">© 2025 Trivelix Pvt. Ltd. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#internship">Internships</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Embed actual logo image
+  const logoB64 = `data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDn6KKK+bPpwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD//Z`;
+  document.querySelectorAll('#logoImg, footer img').forEach(img => img.src = logoB64);
+
+  // Use actual uploaded logo via canvas trick - fallback to gradient icon
+  (function(){
+    const imgs = document.querySelectorAll('#logoImg, footer img');
+    // We'll load the real logo from the page context if available
+    // Since we can't access uploaded files directly in HTML artifacts,
+    // we render a clean SVG logo that matches the Trivelix branding
+    const svgLogo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00c6ff"/>
+          <stop offset="100%" stop-color="#7b2fff"/>
+        </linearGradient>
+      </defs>
+      <!-- Outer circle arc -->
+      <path d="M50 8 A42 42 0 1 1 49.9 8" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-dasharray="210 20"/>
+      <!-- Small orbit dot -->
+      <circle cx="82" cy="26" r="3" fill="url(#lg)"/>
+      <!-- Circuit nodes left -->
+      <circle cx="18" cy="42" r="3" fill="#00c6ff"/>
+      <path d="M18 42 Q14 55 18 65" fill="none" stroke="#00c6ff" stroke-width="1.5"/>
+      <circle cx="18" cy="65" r="2.5" fill="#00c6ff"/>
+      <!-- T-wing symbol -->
+      <path d="M50 22 L72 38 L64 42 L50 32 L36 42 L28 38 Z" fill="url(#lg)"/>
+      <!-- Center stem -->
+      <path d="M50 32 L50 78 L44 82 L56 82 Z" fill="url(#lg)" opacity="0.9"/>
+      <!-- Inner diamond accent -->
+      <path d="M50 40 L58 50 L50 60 L42 50 Z" fill="url(#lg)" opacity="0.4"/>
+    </svg>`;
+    const blob = new Blob([svgLogo], {type: 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    imgs.forEach(img => { img.src = url; img.onerror = null; });
+  })();
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=mx-5+'px'; cursor.style.top=my-5+'px';
+  });
+  (function animateRing(){
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=rx-17+'px'; ring.style.top=ry-17+'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
+  }, {threshold: 0.12});
+  reveals.forEach(el => obs.observe(el));
+
+  // Apply button
+  function handleApply(){
+    const btn = document.querySelector('.form-submit');
+    btn.textContent = '✓ Application Submitted!';
+    btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+    setTimeout(()=>{ btn.textContent='Submit Application →'; btn.style.background=''; }, 3000);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Certificate — Trivelix</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0f;
+    --accent1: #00c6ff;
+    --accent2: #7b2fff;
+    --grad: linear-gradient(135deg, #00c6ff, #7b2fff);
+    --white: #f0f4ff;
+    --gray: #111118;
+    --gray2: #1e1e2e;
+    --muted: #7a80a0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    padding: 16px 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,15,0.95);
+    border-bottom: 1px solid rgba(0,198,255,0.1);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo img { height: 40px; width: 40px; object-fit: contain; }
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 3px;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .nav-back {
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent1); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,198,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .page-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,198,255,0.08);
+    border: 1px solid rgba(0,198,255,0.3);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent1);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: 2px; line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .hero h1 span {
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero p { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  /* SEARCH BOX */
+  .search-section {
+    display: flex; justify-content: center;
+    padding: 30px 20px 60px;
+  }
+  .search-card {
+    background: var(--gray);
+    border: 1px solid var(--gray2);
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%; max-width: 520px;
+    box-shadow: 0 0 40px rgba(0,198,255,0.05);
+  }
+  .search-card h3 {
+    font-size: 1rem; font-weight: 600;
+    margin-bottom: 1rem; color: var(--white);
+  }
+  .input-row { display: flex; gap: 10px; }
+  .cert-input {
+    flex: 1;
+    background: var(--gray2);
+    border: 1px solid #2a2a3e;
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 1px;
+  }
+  .cert-input:focus { border-color: var(--accent1); box-shadow: 0 0 12px rgba(0,198,255,0.1); }
+  .cert-input::placeholder { color: #444; }
+  .verify-btn {
+    background: var(--grad);
+    color: #fff; border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .verify-btn:hover { opacity: 0.85; }
+
+  .hint { font-size: 0.78rem; color: var(--muted); margin-top: 10px; }
+  .hint span { color: var(--accent1); }
+
+  /* RESULT */
+  .result { margin-top: 1.5rem; display: none; }
+
+  .result-success {
+    background: rgba(0,198,255,0.05);
+    border: 1px solid rgba(0,198,255,0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .result-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,198,255,0.15);
+  }
+  .verified-badge {
+    background: var(--grad);
+    color: #fff; font-size: 1.2rem;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .verified-text h4 { font-size: 1rem; font-weight: 700; color: var(--accent1); }
+  .verified-text p { font-size: 0.8rem; color: var(--muted); }
+
+  .detail-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.88rem;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-label { color: var(--muted); }
+  .detail-value { font-weight: 600; color: var(--white); text-align: right; }
+  .status-badge {
+    background: rgba(34,197,94,0.15);
+    color: #22c55e;
+    padding: 2px 10px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 700;
+  }
+
+  .result-error {
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .result-error .icon { font-size: 2rem; margin-bottom: 8px; }
+  .result-error h4 { color: #ef4444; font-size: 1rem; margin-bottom: 6px; }
+  .result-error p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+
+  .loading {
+    text-align: center; padding: 1.5rem;
+    color: var(--muted); font-size: 0.9rem;
+  }
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid var(--gray2);
+    border-top-color: var(--accent1);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 10px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* FOOTER */
+  footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--gray2);
+  }
+  footer span {
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="https://res.cloudinary.com/df6ry13f5/image/upload/v1779615786/WhatsApp_Image_2026-05-24_at_3.11.42_PM_l1flld.jpg" alt="Trivelix" />
+    <div class="logo-text">TRIVELIX</div>
+  </div>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <div class="page-tag">🔐 Certificate Verification</div>
+  <h1>VERIFY YOUR<br><span>CERTIFICATE</span></h1>
+  <p>Enter your Certificate ID below to instantly verify the authenticity of your Trivelix internship certificate.</p>
+</div>
+
+<div class="search-section">
+  <div class="search-card">
+    <h3>Enter Certificate ID</h3>
+    <div class="input-row">
+      <input type="text" class="cert-input" id="certInput" placeholder="e.g. TRX-2026-123456" />
+      <button class="verify-btn" onclick="verifyCert()">Verify</button>
+    </div>
+    <p class="hint">Your Certificate ID is printed at the bottom of your certificate. Format: <span>TRX-2026-XXXXXX</span></p>
+
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+<footer>
+  © 2026 <span>Trivelix</span> — All certificates are digitally verified. For queries: trivelixai@gmail.com
+</footer>
+
+<script>
+  const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1iZGwgJLDew_E23VLxkDUVP94mnU6SkRfKyiKQozBeUI/pub?gid=0&single=true&output=csv';
+
+  // Allow Enter key
+  document.getElementById('certInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyCert();
+  });
+
+  async function verifyCert() {
+    const input = document.getElementById('certInput').value.trim();
+    const resultDiv = document.getElementById('result');
+
+    if (!input) {
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `<div class="result-error"><div class="icon">⚠️</div><h4>Please enter a Certificate ID</h4></div>`;
+      return;
+    }
+
+    // Show loading
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `<div class="loading"><div class="spinner"></div>Verifying certificate...</div>`;
+
+    try {
+      const res = await fetch(SHEET_CSV + '&t=' + Date.now());
+      const text = await res.text();
+      const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+
+      // rows[0] = headers, rows[1+] = data
+      const headers = rows[0];
+      const data = rows.slice(1);
+
+      const certIdCol = headers.findIndex(h => h.toLowerCase().includes('cert'));
+      const nameCol = headers.findIndex(h => h.toLowerCase().includes('name'));
+      const domainCol = headers.findIndex(h => h.toLowerCase().includes('domain'));
+      const durationCol = headers.findIndex(h => h.toLowerCase().includes('duration'));
+      const dateCol = headers.findIndex(h => h.toLowerCase().includes('date'));
+      const statusCol = headers.findIndex(h => h.toLowerCase().includes('status'));
+
+      const match = data.find(row => row[certIdCol] && row[certIdCol].toLowerCase() === input.toLowerCase());
+
+      if (match) {
+        resultDiv.innerHTML = `
+          <div class="result-success">
+            <div class="result-header">
+              <div class="verified-badge">✓</div>
+              <div class="verified-text">
+                <h4>Certificate Verified ✅</h4>
+                <p>This is an authentic Trivelix certificate</p>
+              </div>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Certificate ID</span>
+              <span class="detail-value">${match[certIdCol] || '—'}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Intern Name</span>
+              <span class="detail-value">${match[nameCol] || '—'}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Domain</span>
+              <span class="detail-value">${match[domainCol] || '—'}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Duration</span>
+              <span class="detail-value">${match[durationCol] || '—'}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Issue Date</span>
+              <span class="detail-value">${match[dateCol] || '—'}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Status</span>
+              <span class="detail-value"><span class="status-badge">${match[statusCol] || 'Completed'}</span></span>
+            </div>
+          </div>`;
+      } else {
+        resultDiv.innerHTML = `
+          <div class="result-error">
+            <div class="icon">❌</div>
+            <h4>Certificate Not Found</h4>
+            <p>The Certificate ID <strong>"${input}"</strong> was not found in our records.<br>
+            Please check the ID and try again, or contact us at trivelixai@gmail.com</p>
+          </div>`;
+      }
+    } catch (err) {
+      resultDiv.innerHTML = `
+        <div class="result-error">
+          <div class="icon">⚠️</div>
+          <h4>Verification Unavailable</h4>
+          <p>Unable to connect to the verification server. Please try again later or contact trivelixai@gmail.com</p>
+        </div>`;
+    }
+  }
+</script>
+</body>
+</html>

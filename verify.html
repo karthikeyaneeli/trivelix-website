@@ -244,7 +244,7 @@
 </footer>
 
 <script>
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYhGdlhS8dNUJkVJJh_Xso9lJRyslvMG8gYuEpjvoVR0pKHe5TgDK859rPpE1zZ_d-/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3TjPE7MfEYTeYVvBQ6c2XpxDd2-gwFbxCeh_v_guWgQzQ2oKK0vzTv2QkCOKdgqF0/exec';
 
   async function verifyCert() {
     const input = document.getElementById('certInput').value.trim();
@@ -260,8 +260,16 @@
     resultDiv.innerHTML = `<div class="loading"><div class="spinner"></div>Verifying certificate...</div>`;
 
     try {
-      const res = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(input)}`);
-      const json = await res.json();
+      const res = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(input)}`, {
+        method: 'GET',
+        mode: 'no-cors'
+      });
+      
+      // Try with redirect follow
+      const res2 = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(input)}`, {
+        redirect: 'follow'
+      });
+      const json = await res2.json();
 
       if (json.found) {
         const d = json.data;

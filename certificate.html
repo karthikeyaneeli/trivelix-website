@@ -261,23 +261,45 @@
 </div>
 
 <script>
-  const today = new Date();
-  document.getElementById('c-date').textContent = today.toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
-  const rid = Math.floor(Math.random()*900000+100000);
-  document.getElementById('c-certid').textContent = `TRX-2026-${rid}`;
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEWyOMVrK5i95o_7l7b-crrUOQiU1Yrr7emmU99gqehi15ZJneohfFtZkWH7Pnam5K/exec';
 
   function generateCert() {
     const v = id => document.getElementById(id).value;
-    document.getElementById('c-name').textContent = v('inp-name') || 'Intern Name';
-    document.getElementById('c-college').textContent = v('inp-college') || 'College Name';
-    document.getElementById('c-role').textContent = v('inp-role') || 'Research Intern';
-    document.getElementById('c-domain').textContent = v('inp-domain') || 'AI & Machine Learning';
-    document.getElementById('c-duration').textContent = v('inp-duration') || '4 Weeks';
-    document.getElementById('c-from').textContent = v('inp-from') || '1 June 2026';
-    document.getElementById('c-to').textContent = v('inp-to') || '30 June 2026';
-    document.getElementById('c-founder').textContent = v('inp-founder') || 'Karthikeya';
-    const newId = Math.floor(Math.random()*900000+100000);
-    document.getElementById('c-certid').textContent = `TRX-2026-${newId}`;
+    const name = v('inp-name') || 'Intern Name';
+    const college = v('inp-college') || 'College Name';
+    const role = v('inp-role') || 'Research Intern';
+    const domain = v('inp-domain') || 'AI & Machine Learning';
+    const duration = v('inp-duration') || '4 Weeks';
+    const from = v('inp-from') || '1 June 2026';
+    const to = v('inp-to') || '30 June 2026';
+    const founder = v('inp-founder') || 'Karthikeya';
+
+    document.getElementById('c-name').textContent = name;
+    document.getElementById('c-college').textContent = college;
+    document.getElementById('c-role').textContent = role;
+    document.getElementById('c-domain').textContent = domain;
+    document.getElementById('c-duration').textContent = duration;
+    document.getElementById('c-from').textContent = from;
+    document.getElementById('c-to').textContent = to;
+    document.getElementById('c-founder').textContent = founder;
+
+    const newId = `TRX-2026-${Math.floor(Math.random()*900000+100000)}`;
+    document.getElementById('c-certid').textContent = newId;
+
+    // Auto save to Google Sheet
+    const date = document.getElementById('c-date').textContent;
+    const url = `${SCRIPT_URL}?action=save&certId=${encodeURIComponent(newId)}&name=${encodeURIComponent(name)}&domain=${encodeURIComponent(domain)}&duration=${encodeURIComponent(from+' - '+to)}&date=${encodeURIComponent(date)}`;
+    
+    fetch(url)
+      .then(r => r.json())
+      .then(d => {
+        if(d.success) {
+          alert(`✅ Certificate generated & saved!\nCert ID: ${newId}\n\nNow click Download PDF to save it.`);
+        }
+      })
+      .catch(() => {
+        alert(`✅ Certificate generated!\nCert ID: ${newId}\n\nNote: Auto-save failed. Please add to sheet manually.`);
+      });
   }
 </script>
 </body>
